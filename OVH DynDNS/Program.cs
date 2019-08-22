@@ -104,6 +104,12 @@ namespace OVH_DynDNS
                     {
                         WebRequest.Create("https://smsapi.free-mobile.fr/sendmsg?user=" + config.SmsUser + "&pass=" + config.SmsPass + "&msg=Public%20IP%20change%20detected%21%0ANew%20IP%20is%20" + publicIp).GetResponse();
                     }
+
+                    // Send Telegram notification.
+                    if (!string.IsNullOrEmpty(config.TelegramAccessToken))
+                    {
+                        WebRequest.Create("https://api.telegram.org/bot" + config.TelegramAccessToken + "/sendMessage?chat_id=" + config.TelegramChatId + "&text=Public%20IP%20change%20detected%21%0ANew%20IP%20is%20" + publicIp).GetResponse();
+                    }
                 }
                 else
                 {
@@ -139,6 +145,8 @@ namespace OVH_DynDNS
         public string ZoneName { get; set; }
         public string SmsUser { get; set; }
         public string SmsPass { get; set; }
+        public string TelegramAccessToken { get; set; }
+        public string TelegramChatId { get; set; }
         public string LastPublicIp { get; set; }
     }
 }
