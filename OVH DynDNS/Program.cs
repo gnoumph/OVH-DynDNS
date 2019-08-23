@@ -106,7 +106,10 @@ namespace OVH_DynDNS
                     }
 
                     // Send Telegram notification.
-                    if (!string.IsNullOrEmpty(config.TelegramAccessToken))
+                    if (
+                        !string.IsNullOrEmpty(config.TelegramAccessToken) &&
+                        !string.IsNullOrEmpty(config.TelegramChatId)
+                    )
                     {
                         WebRequest.Create("https://api.telegram.org/bot" + config.TelegramAccessToken + "/sendMessage?chat_id=" + config.TelegramChatId + "&text=Public%20IP%20change%20detected%21%0ANew%20IP%20is%20" + publicIp).GetResponse();
                     }
