@@ -1,15 +1,17 @@
 ﻿using Newtonsoft.Json;
 using Ovh.Api;
+using Ovh.Api.Models;
 using System;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace OVH_DynDNS
 {
     class Program
     {
-        static int Main(string[] args)
+        static async Task Main(string[] args)
         {
             // Variables.
             string publicIp = "";
@@ -78,18 +80,18 @@ namespace OVH_DynDNS
                 {
                     logs.Append("Current IP is different from last IP, apply changes.\n");
                     Client client = new Client(config.OvhRegion, config.ApplicationKey, config.ApplicationSecret, config.ConsumerKey);
-                    int[] recordsIds = client.Get<int[]>("/domain/zone/" + config.ZoneName + "/dynHost/record");
+                    long[] recordsIds = await client.GetAsync<long[]>("/domain/zone/" + config.ZoneName + "/dynHost/record");
 
-                    foreach (int recordId in recordsIds)
+                    foreach (long recordId in recordsIds)
                     {
-                        OvhRecord record = client.Get<OvhRecord>("/domain/zone/" + config.ZoneName + "/dynHost/record/" + recordId);
+                        OvhRecord record = await client.GetAsync<OvhRecord>("/domain/zone/" + config.ZoneName + "/dynHost/record/" + recordId);
                         record.Ip = publicIp;
-                        client.Put("/domain/zone/" + config.ZoneName + "/dynHost/record/" + recordId, "{\"ip\": \"" + record.Ip + "\"}");
+                        await client.PutAsync("/domain/zone/" + config.ZoneName + "/dynHost/record/" + recordId, "{\"ip\": \"" + record.Ip + "\"}");
                         logs.Append("Subdomain changed: " + record.SubDomain + ".\n");
                     }
 
                     // Refresh DNS zone.
-                    client.Post("/domain/zone/" + config.ZoneName + "/refresh", "");
+                    await client.PostAsync("/domain/zone/" + config.ZoneName + "/refresh", "");
                     logs.Append("Configuration updated.\n");
 
                     // Update config.
@@ -128,8 +130,6 @@ namespace OVH_DynDNS
             logs.Append("===================\n\n\n");
             File.AppendAllText(logFile, logs.ToString());
             logs.Clear();
-
-            return 0;
         }
     }
 
