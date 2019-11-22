@@ -17,7 +17,7 @@ Two new parameters are availables (and facultatives):
 }
 ```
 
-As I have another ISP, with a public static IP packed with my subscription, I don't thing I'll add anything here in future.
+As I have another ISP, with a public static IP packed with my subscription, I don't think I'll add anything here in future.
 
 ## What's your needs?
 
