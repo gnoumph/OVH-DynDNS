@@ -10,9 +10,10 @@ Two new parameters are availables (and facultatives):
 
 ```
 {
-  ...
+  …
   "TelegramAccessToken":"{telegramAccessToken}",
   "TelegramChatId":"{telegramChatId}",
+  …
 }
 ```
 
