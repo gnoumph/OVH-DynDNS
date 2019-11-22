@@ -3,6 +3,21 @@
 This program allow you to automatically update your DNS zone when your public IP is renewed.  
 It works with OVH and can send you a SMS when it's done (works only with Free Mobile).
 
+## Updates notes
+
+This program now supports Telegram notifications and is build with Visual Studio 2019 Community Edition.  
+Two new parameters are availables (and facultatives):
+
+```
+{
+  ...
+  "TelegramAccessToken":"{telegramAccessToken}",
+  "TelegramChatId":"{telegramChatId}",
+}
+```
+
+As I have another ISP, with a public static IP packed with my subscription, I don't thing I'll add anything here in future.
+
 ## What's your needs?
 
 ### Visual Studio 2017 Community Edition
